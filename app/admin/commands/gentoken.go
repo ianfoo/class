@@ -38,6 +38,8 @@ func GenToken(log *log.Logger) error {
 	algorithm := "RS256"
 	method := jwt.GetSigningMethod(algorithm)
 	token := jwt.NewWithClaims(method, claims)
+	token.Header["kid"] = "key ID for public key"
+
 	str, err := token.SignedString(privateKey)
 	if err != nil {
 		return errors.Wrap(err, "signing token")
